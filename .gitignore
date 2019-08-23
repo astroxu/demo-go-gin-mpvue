@@ -1,0 +1,9 @@
+.idea
+.DS_Store
+testFunc
+.tcf_build
+.vscode
+*.swp
+.DS_Store
+node_modules
+server/pkg/

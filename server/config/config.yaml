@@ -1,0 +1,19 @@
+Env: dev # 环境，线上环境：prod、测试环境：dev
+Port: '8082' # 端口
+
+# 数据库连接配置
+MySql:
+  Dialect: 'mysql'
+  Host: '118.25.149.140'
+  Port: 3306
+  Username: 'root'
+  Password: '123456'
+  Database: 'koamysql'
+  MaxIdle: 5 # 最大空闲数
+  MaxActive: 20 # 最大活动数
+  Charset: 'utf8mb4'
+  ShowSql: true  # 是否打印sql
+
+# 日志配置
+Logrus:
+  OutputFile: /data/logs/log.log # 日志文件
