@@ -16,4 +16,4 @@ MySql:
 
 # 日志配置
 Logrus:
-  OutputFile: /data/logs/log.log # 日志文件
+  OutputFile: ../logs/log.log # 日志文件

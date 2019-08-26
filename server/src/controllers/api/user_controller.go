@@ -4,34 +4,160 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"src/models"
 	"src/services"
+	"strconv"
 )
 
-/*func register(c *gin.Context) {
-	userName := c.PostForm("username")
-	passWD:=c.PostForm("password")
-	mobile:=c.PostForm("mobile")
-
-	u := models.User{UserName: userName, PasswdSha1: passWD,Mobile:mobile}
-
-	ra, err := u.AddPerson()
-	if err != nil {
-		log.Fatalln(err)
+func SignIn(c *gin.Context) {
+	var userJson models.User
+	if err := c.ShouldBindJSON(&userJson); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-	msg := fmt.Sprintf("insert successful %d", ra)
+
+	//c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+
+	msg := ""
+	userMap := map[string]interface{}{"user_name": userJson.UserName}
+	//fmt.Println("userMap: "+*userMap)
+	user := services.UserService.GetUserByOpt(userMap)
+
+	fmt.Println("user.PasswdSha1: ", user.PasswdSha1, ",userJson.PasswdSha1: ", userJson.PasswdSha1)
+	//fmt.Println(user)
+
+	if user.PasswdSha1 == userJson.PasswdSha1 {
+		msg = "sign in ok"
+	} else {
+		msg = "password error"
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"msg": msg,
 	})
-}*/
+}
 
-func GetUser(c *gin.Context) {
-	id := c.GetInt64("id")
+func Register(c *gin.Context) {
+	var userJson models.User
+	if err := c.ShouldBindJSON(&userJson); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user := &models.User{}
+	user.UserName = userJson.UserName
+	user.PasswdSha1 = userJson.PasswdSha1
+	user.Mobile = userJson.Mobile
 
-	ra := services.UserService.Get(id)
+	msg := ""
 
-	msg := fmt.Sprintf("get successful %d", ra)
+	ra := services.UserService.Post(user)
+
+	msg = fmt.Sprintf("post successful")
 	c.JSON(http.StatusOK, gin.H{
 		"msg":  msg,
 		"data": ra,
 	})
+}
+
+func GetUser(c *gin.Context) {
+	//id := c.GetInt64("id")
+	idStr := c.Param("id")
+	msg := ""
+	if idStr == "" {
+		msg = fmt.Sprintf("get param id is error")
+	}
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		msg = fmt.Sprintf("param string convert to int64 failed")
+	}
+	ra := services.UserService.Get(id)
+
+	msg = fmt.Sprintf("get successful")
+	c.JSON(http.StatusOK, gin.H{
+		"msg":  msg,
+		"data": ra,
+	})
+}
+
+func PutUser(c *gin.Context) {
+	idStr := c.Param("id")
+	msg := ""
+	if idStr == "" {
+		msg = fmt.Sprintf("get param id is error")
+	}
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		msg = fmt.Sprintf("param string convert to int64 failed")
+	}
+
+	user := &models.User{}
+	user.Id = id
+	user.UserName = c.PostForm("username")
+	user.PasswdSha1 = c.PostForm("password")
+	user.Mobile = c.PostForm("mobile")
+
+	ra := services.UserService.Put(user)
+
+	msg = fmt.Sprintf("put successful")
+	c.JSON(http.StatusOK, gin.H{
+		"msg":  msg,
+		"data": ra,
+	})
+}
+
+func DelUser(c *gin.Context) {
+	idStr := c.Param("id")
+	msg := ""
+	if idStr == "" {
+		msg = fmt.Sprintf("get param id is error")
+	}
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		msg = fmt.Sprintf("param string convert to int64 failed")
+	}
+	ra := services.UserService.Delete(id)
+
+	msg = fmt.Sprintf("delete successful")
+	c.JSON(http.StatusOK, gin.H{
+		"msg":  msg,
+		"data": ra,
+	})
+}
+
+func GetUsers(c *gin.Context) {
+	msg := ""
+
+	pageStr, isPage := c.GetQuery("page")
+
+	page, err := strconv.ParseInt(pageStr, 10, 64)
+	if err != nil {
+		msg = fmt.Sprintf("param string convert to int64 failed")
+
+	}
+	perpageStr, isPerPage := c.GetQuery("perpage")
+	perpage, err := strconv.ParseInt(perpageStr, 10, 64)
+	if err != nil {
+		msg = fmt.Sprintf("param string convert to int64 failed")
+	}
+	ra := &[]models.User{}
+	if isPage && isPerPage {
+		offset := (page - 1) * perpage
+		ra = services.UserService.GetUsersPaged(offset, perpage)
+		msg = fmt.Sprintf("get users successful")
+		c.JSON(http.StatusOK, gin.H{
+			"msg":     msg,
+			"data":    ra,
+			"page":    page,
+			"perPage": perpage,
+		})
+	} else {
+		ra = services.UserService.GetUsers()
+		c.JSON(http.StatusOK, gin.H{
+			"msg":  msg,
+			"data": ra,
+		})
+	}
+
 }
