@@ -13,8 +13,8 @@ const (
 // 用户表
 type User struct {
 	GormModel
-	UserName   string `gorm:"not null;unique" json:"username"`
-	PasswdSha1 string `gorm:"not null" json:"password"`
+	UserName   string `gorm:"not null;unique" json:"username" binding:"required"`
+	PasswdSha1 string `gorm:"not null" json:"password" binding:"required"`
 	Mobile     string `json:"mobile"  json:"mobile"`
 	DeleteFlag uint8  `json:"deleteFlag"`
 	CreatedAt  time.Time
