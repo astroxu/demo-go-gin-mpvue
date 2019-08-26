@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
 	"src/models"
@@ -20,7 +21,8 @@ var db *gorm.DB
 
 // 初始化数据库
 func InitDB() {
-	mysqlUrl := config.Conf.MySql.Username + ":" + config.Conf.MySql.Password + "@tcp(" + config.Conf.MySql.Host + ":" + config.Conf.MySql.Port + ")" + config.Conf.MySql.Database + "?charset=" + config.Conf.MySql.Charset + "&parseTime=True&loc=Local"
+	mysqlUrl := config.Conf.MySql.Username + ":" + config.Conf.MySql.Password + "@tcp(" + config.Conf.MySql.Host + ":" + config.Conf.MySql.Port + ")/" + config.Conf.MySql.Database + "?charset=" + config.Conf.MySql.Charset + "&parseTime=True&loc=Local"
+	fmt.Println("db conn: " + mysqlUrl)
 	// 连接数据库
 	OpenDB(&DBConfiguration{
 		Dialect:        config.Conf.MySql.Dialect,
@@ -34,9 +36,9 @@ func InitDB() {
 
 // 打开数据库
 func OpenDB(conf *DBConfiguration) *gorm.DB {
-	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+	/*gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return "t_" + defaultTableName
-	}
+	}*/
 
 	var err error
 	db, err = gorm.Open(conf.Dialect, conf.Url)
