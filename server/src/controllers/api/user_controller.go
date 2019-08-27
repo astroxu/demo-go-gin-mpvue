@@ -9,6 +9,16 @@ import (
 	"strconv"
 )
 
+// @log in
+// @Summary login
+// @Description check user passwd
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Resource Name
+// @Success 200 {object} models.User
+// @Router /users/signin [post]
 func SignIn(c *gin.Context) {
 	var userJson models.User
 	if err := c.ShouldBindJSON(&userJson); err != nil {
@@ -36,6 +46,16 @@ func SignIn(c *gin.Context) {
 	})
 }
 
+// @register
+// @Summary adduser
+// @Description add user
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Param  user body models.User true "Add user"
+// @Success 200 {integer} integer 0
+// @Router /users/register [post]
 func Register(c *gin.Context) {
 	var userJson models.User
 	if err := c.ShouldBindJSON(&userJson); err != nil {
@@ -58,6 +78,16 @@ func Register(c *gin.Context) {
 	})
 }
 
+// @get one user by id
+// @Summary getuser
+// @Description get user
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Param id path int true "User ID"
+// @Success 200 {integer} integer 0
+// @Router /users/{id} [get]
 func GetUser(c *gin.Context) {
 	//id := c.GetInt64("id")
 	idStr := c.Param("id")
@@ -79,6 +109,16 @@ func GetUser(c *gin.Context) {
 	})
 }
 
+// @put one user by id
+// @Summary PutUser
+// @Description put user
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Param id path int true "User ID"
+// @Success 200 {integer} integer 0
+// @Router /users/{id} [put]
 func PutUser(c *gin.Context) {
 	idStr := c.Param("id")
 	msg := ""
@@ -106,6 +146,16 @@ func PutUser(c *gin.Context) {
 	})
 }
 
+// @delete one user by id
+// @Summary DelUser
+// @Description delete user
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Param id path int true "User ID"
+// @Success 200 {integer} integer 0
+// @Router /users/{id} [delete]
 func DelUser(c *gin.Context) {
 	idStr := c.Param("id")
 	msg := ""
@@ -126,6 +176,15 @@ func DelUser(c *gin.Context) {
 	})
 }
 
+// @get users
+// @Summary GetUsers
+// @Description get users
+// @Tags user
+// @Accept json
+// @Security Bearer
+// @Produce  json
+// @Success 200 {array} models.User
+// @Router /users [get]
 func GetUsers(c *gin.Context) {
 	msg := ""
 

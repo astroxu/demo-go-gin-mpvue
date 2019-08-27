@@ -1,0 +1,165 @@
+basePath: /api/v1/
+definitions:
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deleteFlag:
+        type: integer
+      id:
+        type: integer
+      mobile:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: chenganggo@gmail.com
+    name: API Support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: demo-gin-mpvue
+  version: 0.0.1
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: get users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      security:
+      - Bearer: []
+      summary: GetUsers
+      tags:
+      - user
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+      security:
+      - Bearer: []
+      summary: DelUser
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: get user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+      security:
+      - Bearer: []
+      summary: getuser
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: put user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+      security:
+      - Bearer: []
+      summary: PutUser
+      tags:
+      - user
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: add user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+      security:
+      - Bearer: []
+      summary: adduser
+      tags:
+      - user
+  /users/signin:
+    post:
+      consumes:
+      - application/json
+      description: check user passwd
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      security:
+      - Bearer: []
+      summary: login
+      tags:
+      - user
+swagger: "2.0"
