@@ -3,7 +3,7 @@ package log
 import (
 	"github.com/sirupsen/logrus"
 	"os"
-	"src/utils/config"
+	"src/util/config"
 )
 
 func InitLogrus() {

@@ -22,8 +22,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    // filename: utils.assetsPath('[name].[chunkhash].js'),
-    // chunkFilename: utils.assetsPath('[id].[chunkhash].js')
+    // filename: util.assetsPath('[name].[chunkhash].js'),
+    // chunkFilename: util.assetsPath('[id].[chunkhash].js')
     filename: utils.assetsPath('[name].js'),
     chunkFilename: utils.assetsPath('[id].js')
   },
@@ -34,7 +34,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      // filename: utils.assetsPath('[name].[contenthash].css')
+      // filename: util.assetsPath('[name].[contenthash].css')
       filename: utils.assetsPath(`[name].${config.build.fileExt.style}`)
     }),
     // Compress extracted CSS. We are using this plugin so that possible

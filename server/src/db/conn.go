@@ -5,7 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
 	"src/models"
-	"src/utils/config"
+	"src/util/config"
 )
 
 type DBConfiguration struct {

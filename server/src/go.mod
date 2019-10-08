@@ -8,6 +8,7 @@ require (
 	github.com/go-openapi/spec v0.19.2 // indirect
 	github.com/go-openapi/swag v0.19.5 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
+	github.com/google/uuid v1.1.1
 	github.com/jinzhu/gorm v1.9.10
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e // indirect
