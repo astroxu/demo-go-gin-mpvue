@@ -37,7 +37,7 @@ func SignIn(c *gin.Context) {
 	//fmt.Println(user)
 
 	if user.PasswdSha1 == userJson.PasswdSha1 {
-		msg = "sign in ok"
+		msg = "signmd5 in ok"
 	} else {
 		msg = "password error"
 	}

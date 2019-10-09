@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
+	"src/config"
 	"src/models"
-	"src/util/config"
 )
 
 type DBConfiguration struct {

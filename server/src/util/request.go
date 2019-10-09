@@ -3,8 +3,12 @@ package util
 import (
 	"crypto/tls"
 	"github.com/gin-gonic/gin"
+	"github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go/ext"
+	"io/ioutil"
+	"log"
 	"net/http"
-	"src/util/config"
+	"src/config"
 	"time"
 )
 
@@ -23,8 +27,33 @@ func HttpGet(url string, c *gin.Context) (string, error) {
 		return "", err
 	}
 
-	/*if config.Conf.Jaeger.Open{
-		tracer,_:=c.Get("Tracer")
-		parent
-	}*/
+	if config.Conf.Jaeger.Open {
+		tracer, _ := c.Get("Tracer")
+		parentSpanContext, _ := c.Get("ParentSpanContext")
+
+		span := opentracing.StartSpan(
+			"call http Get",
+			opentracing.ChildOf(parentSpanContext.(opentracing.SpanContext)),
+			opentracing.Tag{Key: string(ext.Component), Value: "HTTP"},
+			ext.SpanKindRPCClient)
+
+		span.Finish()
+
+		injectErr := tracer.(opentracing.Tracer).Inject(span.Context(), opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(req.Header))
+		if injectErr != nil {
+			log.Fatalf("%s: Couldn`t inject HTTP headers", err)
+		}
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	content, err := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	if err != nil {
+		return "", err
+	}
+
+	return string(content), err
 }

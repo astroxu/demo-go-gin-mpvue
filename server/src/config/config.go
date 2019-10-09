@@ -9,14 +9,6 @@ import (
 
 var Conf *Config
 
-// 系统告警邮箱信息
-type systemEmail struct {
-	Host     string `yaml:"Host"`
-	Port     string `yaml:"Port"`
-	Username string `yaml:"Username"`
-	Password string `yaml:"Password"`
-}
-
 type Config struct {
 	Env     string `yaml:"Env"`  // 环境：prod、dev
 	Port    string `yaml:"Port"` // 端口
@@ -26,7 +18,7 @@ type Config struct {
 	// MD5 密钥
 	MD5 struct {
 		SignSecret string `yaml:"SignSecret"`
-		SignExpiry int    `yaml:"SignExpiry"`
+		SignExpiry string `yaml:"SignExpiry"`
 	} `yaml:"MD5"`
 
 	// 数据库连接配置
@@ -44,17 +36,23 @@ type Config struct {
 	} `yaml:"MySql"`
 
 	// 日志配置
-	Logrus struct {
+	Log struct {
 		AccessLogName string `yaml:"AccessLogName"`
 		ErrorLogName  string `yaml:"ErrorLogName"`
 		GrpcLogName   string `yaml:"GrpcLogName"`
-	} `yaml:"Logrus"`
+	} `yaml:"Log"`
 
 	// 告警通知
 	ErrorNotify struct {
-		Open        bool        `yaml:"Open"`
-		NotifyUser  string      `yaml:"NotifyUser"`
-		SystemEmail systemEmail `yaml:"SystemEmail"`
+		Open       bool   `yaml:"Open"`
+		NotifyUser string `yaml:"NotifyUser"`
+		// 系统告警邮箱信息
+		SystemEmail struct {
+			Host     string `yaml:"Host"`
+			Port     int    `yaml:"Port"`
+			Username string `yaml:"Username"`
+			Password string `yaml:"Password"`
+		} `yaml:"SystemEmail"`
 	} `yaml:"ErrorNotify"`
 
 	// 链路追踪

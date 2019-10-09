@@ -3,11 +3,11 @@ package log
 import (
 	"github.com/sirupsen/logrus"
 	"os"
-	"src/util/config"
+	"src/config"
 )
 
 func InitLogrus() {
-	output, err := newLogWriter(config.Conf.Logrus.OutputFile)
+	output, err := newLogWriter(config.Conf.Log.AccessLogName)
 	if err == nil {
 		logrus.SetLevel(logrus.InfoLevel)
 		logrus.SetOutput(output)

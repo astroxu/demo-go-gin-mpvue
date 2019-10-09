@@ -1,11 +1,11 @@
-Env: dev # 环境，线上环境：prod、测试环境：dev
+Env: "dev" # 环境，线上环境：prod、测试环境：dev
 AppMode: "debug" # debug or release
 AppName: "go-gin-api"
-Port: '8082' # 端口
+Port: ':8080' # 端口
 
 MD5:
   SignSecret: "4OhYXtDYNYxQsGetqASVOTP37jGt5gGY" # MD5 密钥
-  SignExpiry: 120 #签名超时时间 120s
+  SignExpiry: "120" #签名超时时间 120s
 
 # 数据库连接配置
 MySql:
@@ -21,15 +21,15 @@ MySql:
   ShowSql: true  # 是否打印sql
 
 # 日志配置
-Logrus:
-  AccessLogName: "log/" + AppName + "-access.log"
-  ErrorLogName: "log/" + AppName + "-error.log"
-  GrpcLogName: "log/" + AppName + "-grpc.log"
+Log:
+  AccessLogName: "../log/access.log"
+  ErrorLogName: "../log/error.log"
+  GrpcLogName: "../log/grpc.log"
 
 # 告警通知
 ErrorNotify:
   Open: false # 告警开关 true=开通 false=关闭
-  NotifyUser: "xinliangnote@163.com" # 告警接收人
+  NotifyUser: "xuchengang@outlook.com" # 告警接收人
   SystemEmail: # 系统告警邮箱信息
     Host: "smtp.163.com"
     Port: 465
